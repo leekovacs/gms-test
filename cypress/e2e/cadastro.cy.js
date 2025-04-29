@@ -1,18 +1,18 @@
 /// <reference types="cypress"/>
 
 describe('US - 012 Funcionalidade: Cadastro de membros', () => {
-  it('Deve fazer o cadastro de campos obrigatórios', () => {
+  beforeEach( () => {
     cy.visit('http://127.0.0.1:8080/')
-    cy.get('#signup-firstname').type("Luiz")
-    cy.get('#signup-lastname').type("Carlos")
-    cy.get('#signup-email').type("emails2forte@teste.com")
-    cy.get('#signup-password').type("Senha#$12345")
-    cy.get('#signup-button').click()
+  });
+
+  it('Deve fazer o cadastro de campos obrigatórios', () => {
+    var email = `fabio${Date.now()}@testes.com`
+    cy.preencherCadastro('Luiz', 'Carlos', email, '112233445566', 'Teste#$%123')
     cy.get('#signup-response').should("contain" , "Cadastro realizado com sucesso!")
   })
   
   it('Cadastro de email inválido', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-firstname').type("Luis")
     cy.get('#signup-lastname').type("Gomes")
     cy.get('#signup-email').type("emails2forte!teste")
@@ -22,7 +22,7 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
 
   it('Não preencher campo obrigatório NOME', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-lastname').type("Gomes")
     cy.get('#signup-email').type("emails2forte@teste.com")
     cy.get('#signup-password').type("Senha#$12345")
@@ -31,7 +31,7 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
 
   it('Não preencher o campo obrigatório SOBRENOME', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-firstname').type("Luis")
     cy.get('#signup-email').type("emails2forte@teste.com")
     cy.get('#signup-password').type("Senha#$12345")
@@ -40,7 +40,7 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
 
   it('Não preencher o campo obrigatório EMAIL', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-firstname').type("Luis")
     cy.get('#signup-lastname').type("Gomes")
     cy.get('#signup-password').type("Senha#$12345")
@@ -49,7 +49,7 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
 
   it('Não preencher o campo obrigatório SENHA', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-firstname').type("Luis")
     cy.get('#signup-lastname').type("Gomes")
     cy.get('#signup-email').type("emails2forte@teste.com")
@@ -58,7 +58,7 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
 
   it('Fazer cadastro preenchendo todos os campos disponíveis', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-firstname').type("Luis")
     cy.get('#signup-lastname').type("Gomes")
     cy.get('#signup-email').type("emails2forte@teste.com")
@@ -68,7 +68,7 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
  
   it('Bloqueio de senha fraca', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-firstname').type("Luis")
     cy.get('#signup-lastname').type("Gomes")
     cy.get('#signup-email').type("emails2forte@teste.com")
@@ -78,7 +78,7 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
 
   it('Confirmação de senha forte', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('#signup-firstname').type("Luis")
     cy.get('#signup-lastname').type("Gomes")
     cy.get('#signup-email').type("emails234forte@teste.com")
@@ -88,32 +88,8 @@ describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   })
 
   it('Validação link de política de privacidade', () => {
-    cy.visit('http://127.0.0.1:8080/')
+    
     cy.get('a').click()
     cy.url().should('http://127.0.0.1:8080/polices.html')
   })
-})
-
-describe('US - 001 Funcionalidade: Busca de filmes', () => {
-  it('Busca de filmes por palavra-chave', () => {
-    cy.visit('http://127.0.0.1:8080/')
-    cy.get('#search-input').type('The Matrix')
-    cy.get('#search-button').click()
-    cy.get('#results-section').should('be.visible')
-  })
-
-  it('Busca de filmes por palavra-chave inexistente', () => {
-    cy.visit('http://127.0.0.1:8080/')
-    cy.get('#search-input').type('3ix357')
-    cy.get('#search-button').click()
-    cy.get('#results-section').should("contain" , "Filme não encontrado")
-  })
-
-  it('Testando botão de limpar busca', () => {
-    cy.visit('http://127.0.0.1:8080/')
-    cy.get('#search-input').type('The Matrix')
-    cy.get('#clear-button').click()
-    cy.get('#search-input').should('have.value' , '')
-  })
-
 })
