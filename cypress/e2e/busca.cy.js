@@ -2,8 +2,12 @@
 
 describe('US - 001 Funcionalidade: Busca de filmes', () => {
     beforeEach( () => {
-        cy.visit('http://127.0.0.1:8080/')
+        cy.visit('https://golden-movie-studio.vercel.app/')
       });
+
+      afterEach(() => {
+        cy.screenshot()
+      })
 
       it('Busca de filmes por palavra-chave', () => {
     

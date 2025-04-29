@@ -2,8 +2,12 @@
 
 describe('US - 012 Funcionalidade: Cadastro de membros', () => {
   beforeEach( () => {
-    cy.visit('http://127.0.0.1:8080/')
+    cy.visit('https://golden-movie-studio.vercel.app/')
   });
+
+  afterEach(() => {
+    cy.screenshot()
+  })
 
   it('Deve fazer o cadastro de campos obrigatórios', () => {
     var email = `fabio${Date.now()}@testes.com`
